@@ -1,5 +1,6 @@
 package com.example.swaraj.myapplication;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -42,12 +44,19 @@ public class MainActivity extends AppCompatActivity {
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(notice.getVisibility() == View.VISIBLE){
-                notice.setVisibility(View.GONE);
-                noticeText.setVisibility(View.GONE);
+            if(items.size() > 0){
+                if(notice.getVisibility() == View.VISIBLE){
+                    notice.setVisibility(View.GONE);
+                    noticeText.setVisibility(View.GONE);
+                }
+                circle.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
+            } else {
+                Toast.makeText(getApplicationContext(),"No Results Were Found..",Toast.LENGTH_SHORT).show();
+                noticeText.setText("Search");
+                circle.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
             }
-            circle.setVisibility(View.GONE);
-            adapter.notifyDataSetChanged();
         }
     };
 
@@ -126,9 +135,8 @@ public class MainActivity extends AppCompatActivity {
         if(notice.getVisibility() == View.GONE){
             notice.setVisibility(View.VISIBLE);
             noticeText.setVisibility(View.VISIBLE);
-        } else {
-            noticeText.setText("Searching");
         }
+        noticeText.setText("Searching..");
         circle.setVisibility(View.VISIBLE);
 
         Runnable r = new Runnable() {

@@ -1,5 +1,8 @@
 package com.example.swaraj.myapplication;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,7 +23,7 @@ public class Flipkart {
      */
     public Flipkart(String search){
 
-        contents = new ArrayList<Product>();
+        contents = new ArrayList<>();
         String url = "https://www.flipkart.com/search?q=" + search;
 
         try {

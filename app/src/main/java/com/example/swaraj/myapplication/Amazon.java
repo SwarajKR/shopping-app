@@ -1,5 +1,9 @@
 package com.example.swaraj.myapplication;
 
+import android.app.Activity;
+import android.content.Context;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,7 +24,6 @@ public class Amazon {
     public Amazon(String search) {
 
         //BUILD URL
-
         String url = "http://www.amazon.in/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=" + search;
         contents = new ArrayList<>();
 
@@ -116,7 +119,6 @@ public class Amazon {
             for (Element block : blocks) {
                 try {
                     arrayList.add(block.select(".a-spacing-small > div.a-section").first().text());
-
                 } catch (NullPointerException e) {
                 }
             }
@@ -125,14 +127,13 @@ public class Amazon {
             Elements reviews = doc.select("div.review");
             for (Element review : reviews) {
                 Elements datas = review.select("div.review-data");
-                String reviewString = "";
+                StringBuilder reviewString = new StringBuilder();
                 for (Element data : datas) {
-                    reviewString = reviewString + data.text()+"\n";
+                    reviewString.append(data.text()+"\n");
                 }
-                arrayList.add(reviewString);
+                arrayList.add(reviewString.toString());
             }
         } catch (IOException e) {
-
         } catch (IllegalArgumentException e){
 
         }

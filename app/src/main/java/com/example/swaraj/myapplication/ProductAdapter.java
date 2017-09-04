@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
@@ -58,7 +60,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new ViewHolder(v);
     }
-
 
     /**
      * Bind Data From list object at  position to viewholder
@@ -136,7 +137,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                                                 testUrl = "http://amazon.in"+testUrl;
                                             }
                                         } catch (StringIndexOutOfBoundsException e){
-                                            //
+                                            Toast.makeText(context, "Failed To Fetch Data.", Toast.LENGTH_SHORT).show();
                                         }
                                         holder.features = Amazon.getFeatures(testUrl);
                                         break;
@@ -194,7 +195,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                     context.startActivity(browser);
                 }
                 catch (ActivityNotFoundException e){
-
+                    Toast.makeText(context, "Failed To Open Url", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -219,6 +220,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                                         testUrl = "http://amazon.in"+testUrl;
                                     }
                                 } catch (StringIndexOutOfBoundsException e){
+                                    Toast.makeText(context, "Failed To Fetch Data.", Toast.LENGTH_SHORT).show();
                                 }
                                 holder.reviews.addAll(Amazon.reviews(testUrl));
                                 break;
