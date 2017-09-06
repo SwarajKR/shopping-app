@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,17 +82,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
         try{
             switch (item.getId()){
-                case 0:
-                case 3:
-                    Picasso.with(context).load(item.getImage()).error(R.drawable.ic_not_interested_black_36dp).into(holder.thumbnail);
-                    break;
                 case 1:
                 case 2:
                     Picasso.with(context).load(R.drawable.ic_not_interested_black_36dp).into(holder.thumbnail);
                     break;
+                case 4:
+                    Log.d("Image URL", "url"+item.getImage());
+                    Log.d("URL: ",item.getLink());
                 default:
+                    Picasso.with(context).load(item.getImage()).error(R.drawable.ic_not_interested_black_36dp).into(holder.thumbnail);
                     break;
             }
+
         }
         catch (IllegalArgumentException e){
 
@@ -109,6 +111,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 break;
             case 3:
                 holder.browser.setText("Ebay");
+                break;
+            case 4:
+                holder.browser.setText("Snapdeal");
                 break;
             default:
                 break;
@@ -148,6 +153,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                                     case 3:
                                         holder.features = Ebay.getFeatures(item.getLink());
                                         break;
+                                    case 4:
+                                        holder.features = Snapdeal.getFeatures(item.getLink());
                                     default:
                                         holder.features = "No Details Found...";
                                         break;

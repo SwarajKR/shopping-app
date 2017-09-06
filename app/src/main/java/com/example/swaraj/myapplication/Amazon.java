@@ -1,9 +1,5 @@
 package com.example.swaraj.myapplication;
 
-import android.app.Activity;
-import android.content.Context;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -53,7 +49,7 @@ public class Amazon {
                      try {  price = "Price: "+ block.select("span.s-price").first().text(); } catch (NullPointerException e){price = "Nill"; }
                      try {  link = block.select("a.s-access-detail-page").first().attr("href"); } catch (NullPointerException e){ link = ""; }
                      try {  image = block.select("img.s-access-image").first().attr("src"); } catch (NullPointerException e){ image = ""; }
-                     try { rating = "Rating: "+block.select("a > i > span.a-icon-alt").first().text().split(" ")[0]; } catch (NullPointerException e){ rating = "Rating: Not Avalible"; }
+                     try { rating = "Rating: "+block.select("a > i > span.a-icon-alt").first().text().split(" ")[0]; } catch (NullPointerException e){ rating = "Rating: Not Found"; }
 
                     Product item = new Product(0, name, price, rating, image, link);
                     contents.add(item);

@@ -1,6 +1,5 @@
 package com.example.swaraj.myapplication;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -17,9 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 
@@ -35,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Product> resultOne;
     private ArrayList<Product> resultTwo;
     private ArrayList<Product> resultThree;
+    private ArrayList<Product> resultFour;
     private TextView noticeText;
 
 
@@ -75,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         resultOne = new ArrayList<>();
         resultTwo = new ArrayList<>();
         resultThree = new ArrayList<>();
+        resultFour = new ArrayList<>();
 
         rView = (RecyclerView) findViewById(R.id.recycler);
         rView.setHasFixedSize(true);
@@ -130,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         resultOne.clear();
         resultTwo.clear();
         resultThree.clear();
+        resultFour.clear();
 
         adapter.notifyDataSetChanged();
         if(notice.getVisibility() == View.GONE){
@@ -177,10 +176,22 @@ public class MainActivity extends AppCompatActivity {
                 Thread thThree = new Thread(rThree);
                 thThree.start();
 
+                Runnable rFour = new Runnable() {
+                    @Override
+                    public void run() {
+                        Snapdeal snapdeal = new Snapdeal(keyword);
+                        resultFour.addAll(snapdeal.getContents());
+                    }
+                };
+
+                Thread thFour = new Thread(rFour);
+                thFour.start();
+
                 try {
                     thOne.join();
                     thTwo.join();
                     thThree.join();
+                    thFour.join();
                 } catch (InterruptedException e){
 
                 }
@@ -189,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
                     try{ items.add(resultOne.get(i)); }catch (IndexOutOfBoundsException e){ }
                     try{ items.add(resultTwo.get(i)); }catch (IndexOutOfBoundsException e){ }
                     try{ items.add(resultThree.get(i)); }catch (IndexOutOfBoundsException e){ }
+                    try{ items.add(resultFour.get(i)); }catch (IndexOutOfBoundsException e){ }
                 }
                 handler.sendEmptyMessage(0);
             }

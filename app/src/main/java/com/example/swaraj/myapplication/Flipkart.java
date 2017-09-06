@@ -57,7 +57,7 @@ public class Flipkart {
                         try {
                             rating = "Rating: "+block.select("div.hGSR34").first().text().split(" ")[0];
                         } catch (Exception e) {
-                            rating = "Rating: Not Avalible";
+                            rating = "Rating: Not Found";
                         }
                         contents.add(new Product(1, name, price, rating, image,link));
 
@@ -91,7 +91,7 @@ public class Flipkart {
                                 rating = "Rating: "+block.select("div.hGSR34").first().text().split(" ")[0];
                             }
                             catch(Exception e){
-                                rating = "Rating: Not Avalible";
+                                rating = "Rating: Not Found";
                             }
                             try{
                                 image = doc.select("img").first().attr("src");
