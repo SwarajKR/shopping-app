@@ -25,21 +25,35 @@ public class Snapdeal {
         try {
             Document document = Jsoup.connect(url).get();
             Elements blocks = document.select("div.product-tuple-listing");
+            int count = 0;
             for (Element block: blocks) {
-                String name, price, image, link, rating;
-                try{ name = block.select("p.product-title").first().text(); } catch (NullPointerException e){ continue;}
-                try{ price = block.select("span.product-price").first().text(); } catch (NullPointerException e) {price ="";}
-                try{ link = block.select("a.dp-widget-link").first().attr("href"); } catch (NullPointerException e){link = "";}
-                try {image = block.select("picture > img").first().attr("data-src"); } catch (NullPointerException e){image ="";}
-                try {
-                    rating = block.select("div.filled-stars").first().attr("style").split(":")[1];
-                    rating = rating.split("%")[0];
-                    float temp = Float.parseFloat(rating)/20;
-                    rating = "Rating: " + Float.toString(temp);
-                } catch (Exception e){
-                    rating = "Rating: Not Found";
+                if(count < 5){
+                    String name, price, image, link, rating;
+                    try{ name = block.select("p.product-title").first().text(); } catch (NullPointerException e){ continue;}
+                    try{ price = block.select("span.product-price").first().text(); } catch (NullPointerException e) {price ="";}
+                    try{ link = block.select("a.dp-widget-link").first().attr("href"); } catch (NullPointerException e){link = "";}
+                    try {
+                        image =" https:" +block.select("div.product-img > img").first().attr("src");
+                    } catch (NullPointerException e){
+                        try{
+                            image = block.select("soure.product-image").first().attr("srcset");
+                        } catch (NullPointerException exe){
+                            image ="";
+                        }
+                    }
+                    try {
+                        rating = block.select("div.filled-stars").first().attr("style").split(":")[1];
+                        rating = rating.split("%")[0];
+                        float temp = Float.parseFloat(rating)/20;
+                        rating = "Rating: " + Float.toString(temp);
+                    } catch (Exception e){
+                        rating = "Rating: Not Found";
+                    }
+                    contents.add(new Product(4, name, price, rating, image, link));
+                    count++;
+                } else {
+                    break;
                 }
-                contents.add(new Product(4, name, price, rating, image, link));
             }
         } catch (IOException e){
 
@@ -56,7 +70,7 @@ public class Snapdeal {
         StringBuilder result = new StringBuilder();
         try{
             Document document = Jsoup.connect(url).get();
-            Elements blocks = document.select("ul.dtls-list>li");
+            Elements blocks = document.select("li.dtls-li");
             for (Element block: blocks) {
                 result.append(block.text()+"\n");
             }

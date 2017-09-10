@@ -11,7 +11,6 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,9 +85,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 case 2:
                     Picasso.with(context).load(R.drawable.ic_not_interested_black_36dp).into(holder.thumbnail);
                     break;
-                case 4:
-                    Log.d("Image URL", "url"+item.getImage());
-                    Log.d("URL: ",item.getLink());
                 default:
                     Picasso.with(context).load(item.getImage()).error(R.drawable.ic_not_interested_black_36dp).into(holder.thumbnail);
                     break;
@@ -155,6 +151,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                                         break;
                                     case 4:
                                         holder.features = Snapdeal.getFeatures(item.getLink());
+                                        break;
                                     default:
                                         holder.features = "No Details Found...";
                                         break;
@@ -235,6 +232,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                             case 2:
                                 holder.reviews.addAll(Flipkart.reviews("https://www.flipkart.com"+item.getLink()));
                                 break;
+                            case  4:
+                                holder.reviews.addAll(Snapdeal.reviews(item.getLink()));
                             default:
                                 holder.reviews.addAll(Ebay.reviews(item.getLink()));
                                 break;
