@@ -34,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Product> resultFour;
     private TextView noticeText;
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("items", items);
+    }
+
 
     /**
      *Handler called when Search is complete to hide progressbar and show recyclerview
@@ -67,7 +73,13 @@ public class MainActivity extends AppCompatActivity {
         notice = (ImageView) findViewById(R.id.placeholder);
         noticeText = (TextView) findViewById(R.id.notice_text);
 
-        items = new ArrayList<>();
+        if( savedInstanceState == null || !savedInstanceState.containsKey("items") ){
+            items = new ArrayList<>();
+        } else {
+            items = savedInstanceState.getParcelableArrayList("items");
+            notice.setVisibility(View.GONE);
+            noticeText.setVisibility(View.GONE);
+        }
 
         resultOne = new ArrayList<>();
         resultTwo = new ArrayList<>();
